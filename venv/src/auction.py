@@ -14,7 +14,6 @@ class Auction:
         self.item_description = item_description
 
     def getAuctionID(itemName, dbCursor):
-        print("itemName", itemName)
         # given an item name, return the auction ID
         dbCursor.execute("""SELECT * FROM auctions WHERE item = ?""", (itemName,))
         auctions = dbCursor.fetchall()
@@ -97,7 +96,6 @@ class Auction:
             (bidOwnerID, auctionID),
         )
         bidID = dbCursor.fetchone()[0]
-        print("bidID:", bidID)
 
         formatted_bidID = str(bidID) + ","
 
@@ -164,7 +162,6 @@ class Auction:
             """SELECT highestBid FROM auctions WHERE auctionID = ?""", (auctionID,)
         )
         fetchHighestBid = dbCursor.fetchone()
-        print("fetchHighestBid:", fetchHighestBid)
         highestBid = fetchHighestBid[0]
 
         # check if highest bid is 0.0 meaning no bids were placed
@@ -178,7 +175,6 @@ class Auction:
 
         dbCursor.execute("""SELECT ownerID FROM bids WHERE price = ?""", (highestBid,))
         fetchHighestBidOwner = dbCursor.fetchone()
-        print("fetchHighestBidOwner:", fetchHighestBidOwner)
         highestBidOwner = fetchHighestBidOwner[0]
 
         return highestBidOwner
@@ -186,17 +182,14 @@ class Auction:
     def getBids(userID, dbCursor):
         dbCursor.execute("""SELECT bids FROM users WHERE userID = ?""", (userID,))
         bids = dbCursor.fetchall()
-        print("bids:", bids)
         # check if the user has no bids
         if bids == [("",)]:
             return "You have no bids.\n"
 
         bidsID = bids[0][0].split(",")
-        print("bidsID:", bidsID)
 
         allBids = ""
         for bidID in bidsID:
-            print("bidID:", bidID)
             if bidID == "" or bidID == None:
                 continue
             dbCursor.execute("""SELECT auctionID FROM bids WHERE bidID = ?""", (bidID,))
