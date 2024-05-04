@@ -27,7 +27,7 @@ class AuctionComm(object):
 
             # pass the size of message in dict? so if passing the size of greater message should cover all of them
             size = self._loopRecv(4)
-            print(size)
+            # print(size)
             data = self._loopRecv(int(size.decode("utf-8")))
             m.unmarshal(data)
         except Exception:

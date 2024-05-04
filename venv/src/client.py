@@ -10,7 +10,7 @@ from item import Item
 def main():
     commsoc = socket.socket()
 
-    commsoc.connect(("localhost", 50000))
+    commsoc.connect(("174.129.99.121", 50000)) # this is the public IP address of the MWserver
 
     comm = AuctionComm(commsoc)
     protocol = AuctionProtocol(comm)

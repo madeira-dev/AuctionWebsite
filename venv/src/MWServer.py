@@ -30,7 +30,7 @@ def baseTCPProtocolS(csoc):
 
     # connect to data storage server
     dataCommSoc = socket.socket()
-    dataCommSoc.connect(("localhost", 55000))
+    dataCommSoc.connect(("34.227.161.237", 80))
     dataComm = AuctionComm(dataCommSoc)
     dataProtocol = AuctionProtocol(dataComm)
 
@@ -39,7 +39,7 @@ def baseTCPProtocolS(csoc):
         client_message_type = client_received_request.getType()
 
         if client_message_type == "LGIN":
-            print("client requested login")
+            print("Login Request")
             dataLoginMessage = AuctionMessage()
             dataLoginResponseMessage = AuctionMessage()
             lgin_response_message = AuctionMessage()
@@ -57,7 +57,7 @@ def baseTCPProtocolS(csoc):
             protocol.putResponse(lgin_response_message)
 
         elif client_message_type == "LOUT":
-            print("client requested logout")
+            print("Logout Request")
             dataLoutMessage = AuctionMessage()
             dataLoutResponseMessage = AuctionMessage()
             lout_response_message = AuctionMessage()
@@ -77,7 +77,7 @@ def baseTCPProtocolS(csoc):
             break
 
         elif client_message_type == "LSAL":
-            print("client requested auctions list")
+            print("List Auctions Request")
             """
             send request to data storage server to get sales
             """
@@ -100,7 +100,7 @@ def baseTCPProtocolS(csoc):
             protocol.putResponse(lsalResponseMessage)
 
         elif client_message_type == "LBID":
-            print("client requested bids list")
+            print("List Bids Request")
             """
             send request to data storage server to get bids list
             """
@@ -123,7 +123,7 @@ def baseTCPProtocolS(csoc):
             protocol.putResponse(lbidResponseMessage)
 
         elif client_message_type == "MBID":
-            print("client requested place bid")
+            print("Place Bid Request")
             dataMbidMessage = AuctionMessage()
             dataMbidResponseMessage = AuctionMessage()
             mbidResponseMessage = AuctionMessage()
@@ -144,7 +144,7 @@ def baseTCPProtocolS(csoc):
             protocol.putResponse(mbidResponseMessage)
 
         elif client_message_type == "MAUC":
-            print("client requested make auction")
+            print("Make Auction Request")
             dataMaucMessage = AuctionMessage()
             dataMaucResponseMessage = AuctionMessage()
             maucResponseMessage = AuctionMessage()
@@ -162,7 +162,7 @@ def baseTCPProtocolS(csoc):
             protocol.putResponse(maucResponseMessage)
 
         elif client_message_type == "SAUC":
-            print("client requested search auction")
+            print("Search Auction Request")
             dataSaucMessage = AuctionMessage()
             dataSaucResponseMessage = AuctionMessage()
             saucResponseMessage = AuctionMessage()
@@ -204,7 +204,7 @@ if __name__ == "__main__":
     serversoc = socket.socket()
 
     # bind to local host:50000
-    serversoc.bind(("localhost", 50000))
+    serversoc.bind(("172.31.86.142", 50000))
 
     # make passive with backlog=5
     serversoc.listen(5)

@@ -35,7 +35,6 @@ def databaseSetup(cursor):
 
 def signal_handler(signum, frame):
     if signum == signal.SIGUSR1:
-        print("inside signal handler")
         print("auction ttl ended")
 
 
@@ -53,7 +52,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
         message_type = received_request.getType()
 
         if message_type == "LGIN":
-            print("login request")
             lgin_response_message = AuctionMessage()
 
             loginRequestData = received_request.getData().decode()
@@ -84,7 +82,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             protocol.putResponse(lgin_response_message)
 
         elif message_type == "LOUT":
-            print("logout request")
             lout_response_message = AuctionMessage()
 
             lout_response_message.setType("GOOD")
@@ -94,7 +91,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             break
 
         elif message_type == "LSAL":
-            print("list sales request")
             lsal_response_message = AuctionMessage()
 
             # get sales from storage
@@ -111,7 +107,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             protocol.putResponse(lsal_response_message)
 
         elif message_type == "LBID":
-            print("list bids request")
             lbid_response_message = AuctionMessage()
             userID = received_request.getData().decode()
 
@@ -129,7 +124,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             protocol.putResponse(lbid_response_message)
 
         elif message_type == "MBID":
-            print("place bid request")
             mbid_response_message = AuctionMessage()
 
             mbidRequestData = received_request.getData().decode()
@@ -147,21 +141,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
 
             if bidPlaced:
                 mbid_response_message.setType("GOOD")
-                # Auction.decreaseBidCount(auctionItemName)
-                # isAuctionOver = Auction.checkBidCount(auctionItemName)
-
-                # if isAuctionOver:
-                #     highestBid = Auction.getHighestBid(auctionItemName)
-                #     winnerID = Auction.getAuctionWinner(auctionItemName, highestBid)
-                #     winnerName = loggedInUser.getUserByID(winnerID)
-                #     Auction.deleteAuction(auctionItemName)
-                #     Auction.deleteBids(auctionItemName, winnerName)
-
-                #     mbid_response_message.setData(
-                #         f"Auction is Over.\nWinner is: {winnerName}".encode()
-                #     )
-                # else:
-                #     mbid_response_message.setData(b"Bid placed successfully")
             else:
                 mbid_response_message.setType("ERRO")
                 mbid_response_message.setData(b"Bid placement failed")
@@ -170,7 +149,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             protocol.putResponse(mbid_response_message)
 
         elif message_type == "MAUC":
-            print("make auction request")
             mauc_response_message = AuctionMessage()
 
             maucRequestData = received_request.getData().decode()
@@ -208,7 +186,6 @@ def baseTCPProtocolS(csoc, dbCursor, conn):
             protocol.putResponse(mauc_response_message)
 
         elif message_type == "SAUC":
-            print("search auction request")
             sauc_response_message = AuctionMessage()
 
             searchItem = received_request.getData().decode()
@@ -257,11 +234,11 @@ if __name__ == "__main__":
     serversoc = socket.socket()
 
     # bind to local host:55000
-    serversoc.bind(("localhost", 55000))
+    serversoc.bind(("172.31.86.142", 55000))
 
     # make passive with backlog=5
     serversoc.listen(5)
-    print("Server is listening on port 55000")
+    print("Listening on port 55000")
 
     # wait for incoming connections
     try:
