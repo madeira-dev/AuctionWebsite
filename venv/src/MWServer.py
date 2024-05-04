@@ -30,7 +30,7 @@ def baseTCPProtocolS(csoc):
 
     # connect to data storage server
     dataCommSoc = socket.socket()
-    dataCommSoc.connect(("34.227.161.237", 80))
+    dataCommSoc.connect(("172.31.86.142", 55000))
     dataComm = AuctionComm(dataCommSoc)
     dataProtocol = AuctionProtocol(dataComm)
 
